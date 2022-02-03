@@ -39,13 +39,13 @@
 					</snapshots>
 					<id>central</id>
 					<name>plugins-release</name>
-					<url>http://repo1.maven.org/maven2/</url>
+					<url> https://repo.maven.apache.org/maven2/</url>
 				</pluginRepository>
 				<pluginRepository>
 					<snapshots />
 					<id>snapshots</id>
 					<name>plugins-snapshot</name>
-					<url>http://repo1.maven.org/maven2/</url>
+					<url> https://repo.maven.apache.org/maven2/</url>
 				</pluginRepository>
 			</pluginRepositories>
 			<id>artifactory</id>
