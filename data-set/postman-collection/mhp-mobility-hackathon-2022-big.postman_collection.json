@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "2f92d93f-6f8f-469e-baa3-18d71a8879ac",
+		"name": "mhp-mobility-hackathon-2022-big",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get available Baseline Schemata",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "\"~Hz{gn_cHXUkUpSq78E:NKjhpWKYW8*k8xL,->7~(N5^",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{baseUrl}}/data-package-supplier/services/schema/available?type=BASELINE",
+					"protocol": "https",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"data-package-supplier",
+						"services",
+						"schema",
+						"available"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "BASELINE"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Nutzdaten",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "\"~Hz{gn_cHXUkUpSq78E:NKjhpWKYW8*k8xL,->7~(N5^",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{baseUrl}}/data-package-supplier/services/datenverteilung/nutzdaten/d4ec3fa8-77fa-4bc9-af1d-043a9ea56c41",
+					"protocol": "https",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"data-package-supplier",
+						"services",
+						"datenverteilung",
+						"nutzdaten",
+						"d4ec3fa8-77fa-4bc9-af1d-043a9ea56c41"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Nutzdaten Metainfos for Freigabedokument",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "\"~Hz{gn_cHXUkUpSq78E:NKjhpWKYW8*k8xL,->7~(N5^",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{baseUrl}}/data-package-supplier/services/datenverteilung/nutzdaten/freigabedokument/6f2206e63a5f5dd4850578aa1fcdc49bd660a1c9c9aeba8ce747a82809b76277",
+					"protocol": "https",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"data-package-supplier",
+						"services",
+						"datenverteilung",
+						"nutzdaten",
+						"freigabedokument",
+						"6f2206e63a5f5dd4850578aa1fcdc49bd660a1c9c9aeba8ce747a82809b76277"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "\"~Hz{gn_cHXUkUpSq78E:NKjhpWKYW8*k8xL,->7~(N5^",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-api-key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl\n",
+			"value": "tbd",
+			"type": "string"
+		}
+	]
+}
