@@ -1,0 +1,187 @@
+{
+  "fahrzeugprojektProduktKey" : "101f57b3-40e7-4f6a-a07f-7157300b98ab",
+  "artefaktTyp" : "BL_b7ca4878-11d3-4ab3-a1e5-2e4a1cd1aa26",
+  "referenzItems" : [ {
+    "diagnoseAdresse" : "2db00750-ceae-4a73-8528-6c7416bc5ac3",
+    "steuergeraetename" : "a1799b4a-2466-478f-8556-104b2952be96",
+    "teilenummer" : "b888332b-021a-4878-80bf-0db005b5cbc0",
+    "softwareVersion" : "0bb9a0f1-ba51-4ea0-ac28-2f95efe72739",
+    "hardwareVersion" : "33ad2178-0874-4241-ab12-8fed5a8b087b",
+    "status" : {
+      "id" : 68,
+      "bezeichnung" : "d22a9f48-53bd-4f4c-8caa-33e6afd8fdce"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "47274719-0fd1-4b77-b575-7f134726967e",
+      "filename" : "300ae1c9-2671-418b-a3fc-0a92b1e301b9",
+      "filetype" : "SW-ODX"
+    }, {
+      "fileIdentifier" : "41936c43-3ff3-4213-be13-07888d338202",
+      "filename" : "420c8768-faa2-4684-8515-8c965ceeae59",
+      "filetype" : "SW-ODX"
+    }, {
+      "fileIdentifier" : "32169c1c-d848-4570-8db0-d7bf05b17007",
+      "filename" : "0692ef7d-261f-4bef-869d-3e035d8cdd98",
+      "filetype" : "SW-ODX"
+    } ]
+  }, {
+    "diagnoseAdresse" : "b90a056a-ff18-4d8a-ad9d-99acb722fd3a",
+    "steuergeraetename" : "446cbf64-472b-44c8-af19-62c6ad8fbab9",
+    "teilenummer" : "b362cea9-197d-4872-aafc-b199ff61781d",
+    "softwareVersion" : "8293e226-d394-41e3-b43b-f26acc57c4bb",
+    "hardwareVersion" : "f48a17e0-46da-408c-b2c5-0cf36e2187f6",
+    "status" : {
+      "id" : 57,
+      "bezeichnung" : "088c76ba-e742-43cd-8116-aadae93aef74"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "d9dd42e7-329f-455f-84f2-3869360f3d04",
+      "filename" : "5e71dd7a-8343-4da6-828a-94dc2daf783b",
+      "filetype" : "SW-PDX"
+    } ]
+  }, {
+    "diagnoseAdresse" : "e3092028-a013-4007-a63b-1e51268c5f21",
+    "steuergeraetename" : "862a6140-d5ac-45d6-bbe0-392bf57aa699",
+    "teilenummer" : "4b69614c-3b85-421c-9f70-97536060da41",
+    "softwareVersion" : "875dca30-8b27-4c18-a298-ff5222896553",
+    "hardwareVersion" : "62640e24-4b00-4d72-b07a-820d36120e13",
+    "status" : {
+      "id" : 63,
+      "bezeichnung" : "17b5b3f2-d5e9-4f0b-9c75-aab6cea89f88"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "6a5e9e0e-1adf-4ffe-a552-d79f37cb6c9f",
+      "filename" : "5a4ae979-ccdb-425d-bf5f-42b103d575d8",
+      "filetype" : "SW-LUM"
+    } ]
+  }, {
+    "diagnoseAdresse" : "69327d12-f2eb-46d3-804f-47191d0dd289",
+    "steuergeraetename" : "f4d2dcc5-4c22-42c5-82b0-8f4e3084caaf",
+    "teilenummer" : "0fc7d753-5042-487d-94f3-b683e8fa1ca1",
+    "softwareVersion" : "b4c1989c-951c-4fcf-b79e-67face450ac7",
+    "hardwareVersion" : "47f137cd-951e-48e2-8b43-1677abebf689",
+    "status" : {
+      "id" : 1,
+      "bezeichnung" : "894acc30-79e1-40ee-a063-3693fbca064e"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "6c4d0c22-9fdf-41c1-8eba-c5b71c6a3bdf",
+      "filename" : "da23fc03-3ada-4634-bb33-0409c6f8b937",
+      "filetype" : "SW-ODX"
+    }, {
+      "fileIdentifier" : "644cab3e-9d16-428d-9df8-320e8b0728d7",
+      "filename" : "21fdf8f7-f5b3-4781-b456-fa59c79e06fb",
+      "filetype" : "SW-ODX"
+    }, {
+      "fileIdentifier" : "af18b7e2-fcea-427b-bd0f-0f50122b80a9",
+      "filename" : "0345ee6b-3f1e-4c03-affc-854cc5821232",
+      "filetype" : "SW-ODX"
+    } ]
+  }, {
+    "diagnoseAdresse" : "d7f654d8-5af1-47da-865c-174954711e4f",
+    "steuergeraetename" : "dd1d3b47-541e-4f6c-99ec-5a29b1ebbdc8",
+    "teilenummer" : "37ad3c51-5c8c-4511-af5b-8fe345e20d4e",
+    "softwareVersion" : "d6abc6a4-418d-49a1-b492-092f1ad2ccd8",
+    "hardwareVersion" : "cfae72e3-6bd6-4157-9110-88a232bb0e00",
+    "status" : {
+      "id" : 5,
+      "bezeichnung" : "14714abe-edb2-424f-88e0-4a58d31f421e"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "d10a2427-5aa3-4856-b6e8-76a0ff6c0315",
+      "filename" : "3a11a840-e4f1-4149-a361-ca29fd6eb01a",
+      "filetype" : "SW-PDX"
+    } ]
+  }, {
+    "diagnoseAdresse" : "2853a645-0b62-4327-816e-2938cfbb947b",
+    "steuergeraetename" : "bf405c7b-c188-44e9-b54c-6d1f3eb31e73",
+    "teilenummer" : "9da9ff4c-3d92-4e02-97c0-35b619576bf4",
+    "softwareVersion" : "12776273-07f6-41b2-ae0d-28b766659632",
+    "hardwareVersion" : "05dd5677-74bc-445c-aacf-0d71219f9cbd",
+    "status" : {
+      "id" : 16,
+      "bezeichnung" : "84f43b85-7e1f-4a43-a64f-55a3af9118dd"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "4bcb9162-3c24-403e-9718-f4fd1e9a5322",
+      "filename" : "d65cbc49-1ef9-48fc-bdf8-46e45c111c4e",
+      "filetype" : "SW-LUM"
+    } ]
+  }, {
+    "diagnoseAdresse" : "764218ce-0ec0-4b7d-9874-c813dbae43b9",
+    "steuergeraetename" : "b0a8a163-e9c4-49b6-9b80-ce492f7ab859",
+    "teilenummer" : "5e6c5f7a-7f33-45fb-81c3-3d2e4f7d7e73",
+    "softwareVersion" : "9b99ce2a-383f-4d91-839f-e5bab333a19e",
+    "hardwareVersion" : "2d74151d-b719-4db6-8e98-9555b6e9775c",
+    "status" : {
+      "id" : 34,
+      "bezeichnung" : "53b123da-c059-4f58-aaba-d1529ec66117"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "f8f00a4b-fb9e-48c7-931a-5e7851c214dc",
+      "filename" : "7f73b5ea-6b1e-4889-baa1-6c25063deeb3",
+      "filetype" : "SW-ODX"
+    }, {
+      "fileIdentifier" : "6f29bf81-2c54-491e-abac-e80c13b52cac",
+      "filename" : "6893a1ac-5a53-40b2-9f83-48bcda961c31",
+      "filetype" : "SW-ODX"
+    }, {
+      "fileIdentifier" : "66f5bb87-3996-41b5-8b5b-27e63c9fbde7",
+      "filename" : "7b8516bd-9dfc-497e-85b9-bed8cf4960ab",
+      "filetype" : "SW-ODX"
+    } ]
+  }, {
+    "diagnoseAdresse" : "f333836e-d3f2-4329-86b9-890a8cb852b6",
+    "steuergeraetename" : "df085325-da04-4c2b-bdb6-9bbf79d99c02",
+    "teilenummer" : "79105358-4f3f-4b3d-b049-6321a6aa3597",
+    "softwareVersion" : "3937de7b-6219-4e48-bacd-0fdc841cea4e",
+    "hardwareVersion" : "a1f8899b-c136-42ca-afd3-d40b0695bbb6",
+    "status" : {
+      "id" : 53,
+      "bezeichnung" : "c0a48234-71b9-414e-b4a7-f4d8503ba729"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "ba1295c3-e0ed-4a8d-bc41-351b0ecda031",
+      "filename" : "4046b7f6-5c8c-4de8-bdb9-11f67c655e2e",
+      "filetype" : "SW-PDX"
+    } ]
+  }, {
+    "diagnoseAdresse" : "13cd23d9-1b7f-4cc8-b630-ee8a9908e3e8",
+    "steuergeraetename" : "6b9b2200-b41f-439c-8395-659bd3da19f9",
+    "teilenummer" : "3ba4a364-dfee-40d2-8f68-dba036f3828f",
+    "softwareVersion" : "2807efff-e55f-484c-9cd2-3ec6aec86a69",
+    "hardwareVersion" : "8f5b848a-efdc-4579-8e2e-d39626faee81",
+    "status" : {
+      "id" : 56,
+      "bezeichnung" : "88822925-3a0f-4f1c-b8ff-d10f39ac72b4"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "013e0c7c-ab0f-4c28-a8d6-bade14b07038",
+      "filename" : "ad3d02cf-1450-4b8c-8f8f-30df5156e079",
+      "filetype" : "SW-LUM"
+    } ]
+  }, {
+    "diagnoseAdresse" : "c7aaa249-1b2d-4685-bf82-cef453e8275b",
+    "steuergeraetename" : "3a0407c6-56ca-4739-b41f-f37c48cb40d1",
+    "teilenummer" : "6d4a158c-0fbc-4c21-9e6d-97f8a449d2e7",
+    "softwareVersion" : "5c60f0db-de5d-48b0-9498-7f03d573033a",
+    "hardwareVersion" : "f2b7dab2-5c02-4f79-a414-acd6a80f288c",
+    "status" : {
+      "id" : 42,
+      "bezeichnung" : "4790000c-f619-4935-9642-42692ea79365"
+    },
+    "referenzierteDaten" : [ {
+      "fileIdentifier" : "e6deffbc-d290-46a2-83a5-aca5df491ed4",
+      "filename" : "38ded751-50d0-4b57-86f3-534002b5e710",
+      "filetype" : "SW-ODX"
+    }, {
+      "fileIdentifier" : "c9dbc47a-e527-411d-95ca-ea4f7759f79a",
+      "filename" : "4e9578c4-6d7e-4c9f-b32f-58af44d9d52b",
+      "filetype" : "SW-ODX"
+    }, {
+      "fileIdentifier" : "13451665-f776-45c3-88bc-77d28fd887e1",
+      "filename" : "ae3f4b8c-505b-4b38-bd76-6efb0f5eea99",
+      "filetype" : "SW-ODX"
+    } ]
+  } ]
+}
