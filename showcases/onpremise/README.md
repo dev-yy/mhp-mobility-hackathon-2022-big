@@ -22,6 +22,9 @@ Another Application subscribes on that topic (`fabrik/zuffenhausen/sensors/temps
 # Start the whole app with docker-compose
 - docker-compose up
 
+# See the published events with mosquitte client
+- mosquitto_sub -h localhost -t "fabrik/zuffenhausen/sensors/tempsensorA"
+
 
 # See the documents in mongo
 - docker exec -it <container-id>  mongo --username root --password rootpassword
