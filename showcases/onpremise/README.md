@@ -4,6 +4,7 @@ The Broker Topic is actually: `fabrik/zuffenhausen/sensors/tempsensorA`.
 Another Application subscribes on that topic (`fabrik/zuffenhausen/sensors/tempsensorA`) and writes the data to mongodb for storage.
 
 # Architecture
+![image info](./picture/arch.png)
 
 
 # Start the App
