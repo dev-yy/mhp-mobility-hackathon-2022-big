@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    volumes:
+      - ./:/mosquitto/:rw
+    ports:
+      - 1883:1883
+      #- 9001:9001
+
+  temp-sensorA:
+    image: hackathonmhp/mqtt-temp-sensor
+    environment:
+      - "SPRING_PROFILES_ACTIVE=localdocker"
+    depends_on:
+      - mqtt-broker
+
+  temp-subscriberA:
+    image: hackathonmhp/mqtt-temp-subscriber
+    environment:
+      - "SPRING_PROFILES_ACTIVE=localdocker"
+    depends_on:
+      - mqtt-broker
+      - mongodb_container
+  
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:

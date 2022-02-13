@@ -1,0 +1,22 @@
+1644693921: mosquitto version 2.0.14 starting
+1644693921: Config loaded from /mosquitto/config/mosquitto.conf.
+1644693921: Starting in local only mode. Connections will only be possible from clients running on this machine.
+1644693921: Create a configuration file which defines a listener to allow remote access.
+1644693921: For more details see https://mosquitto.org/documentation/authentication-methods/
+1644693921: Opening ipv4 listen socket on port 1883.
+1644693921: Opening ipv6 listen socket on port 1883.
+1644693921: Error: Address not available
+1644693921: mosquitto version 2.0.14 running
+1644693936: mosquitto version 2.0.14 terminating
+1644693936: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1644693954: mosquitto version 2.0.14 starting
+1644693954: Config loaded from /mosquitto/config/mosquitto.conf.
+1644693954: Starting in local only mode. Connections will only be possible from clients running on this machine.
+1644693954: Create a configuration file which defines a listener to allow remote access.
+1644693954: For more details see https://mosquitto.org/documentation/authentication-methods/
+1644693954: Opening ipv4 listen socket on port 1883.
+1644693954: Opening ipv6 listen socket on port 1883.
+1644693954: Error: Address not available
+1644693954: mosquitto version 2.0.14 running
+1644694023: mosquitto version 2.0.14 terminating
+1644694023: Saving in-memory database to /mosquitto/data//mosquitto.db.
