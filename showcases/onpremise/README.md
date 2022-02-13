@@ -11,15 +11,15 @@ Another Application subscribes on that topic (`fabrik/zuffenhausen/sensors/temps
 - Install Docker
 - ensure docker-compose is installed
 
-# Install the app tempsensor locally with docker
+# Install MQTT Publisher: tempsensor locally with docker
 - mvn clean install
 - docker build -t hackathonmhp/mqtt-temp-sensor .
 
-# Install the app temperatureanalytics locally with docker
+# Install MQTT Subscriber and Mongo Writer: temperatureanalytics locally with docker
 - mvn clean install
 - docker build -t hackathonmhp/mqtt-temp-subscriber .
 
-# Start with docker-compose
+# Start the whole app with docker-compose
 - docker-compose up
 
 
