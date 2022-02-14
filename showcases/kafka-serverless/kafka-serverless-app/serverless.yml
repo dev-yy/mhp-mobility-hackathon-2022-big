@@ -1,0 +1,31 @@
+service: kafka-serverless-app
+frameworkVersion: '3'
+
+plugins:
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: java8
+  region: eu-west-1
+
+package:
+  artifact: target/kafka-serverless-app-1.0-SNAPSHOT.jar
+
+functions:
+  subscriber:
+    handler: com.mhp.Handler
+    events:
+      - kafka:
+          accessConfigurations:
+            saslScram512Auth: arn:aws:secretsmanager:eu-west-1:113224084033:secret:PoCKafkaBrokerSecretName-nknYST
+          topic: sw5k1d8j-hackathon
+          bootstrapServers:
+            - rocket-01.srvs.cloudkafka.com:9094
+            - rocket-02.srvs.cloudkafka.com:9094
+            - rocket-03.srvs.cloudkafka.com:9094
+    iamRoleStatements:
+      - Effect: "Allow"        
+        Action:
+          - "secretsmanager:GetSecretValue"
+        Resource: "arn:aws:secretsmanager:eu-west-1:113224084033:secret:PoCKafkaBrokerSecretName-nknYST"
