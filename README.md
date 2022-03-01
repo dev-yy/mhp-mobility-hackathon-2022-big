@@ -23,8 +23,8 @@ The MHP challenge expert team will play the role as firmware supplier at the hac
 
 The hackathon dev team should:
 
-1. subscribe the Kafka-Topic and Receive the Kafka-Notification
-2. process the download of different types of firmware data files and storage those files in the AWS Cloud
+1. subscribe a kafka-topic and receive kafka-notifications
+2. process download of different types of firmware data files and storage those files in the AWS Cloud
 3. rebuild a on-premise-service to poll the current information about the firmware update
 4. download data files from AWS cloud to on-premise-service and inform the IoT devices via MQTT about a new update
 5. simulate / connect multiple IoT devices to retrieve those firmware update files from on-premise-service "over the air"
