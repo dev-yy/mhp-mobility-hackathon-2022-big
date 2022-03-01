@@ -1,0 +1,229 @@
+frameworkVersion: ^2.55.0
+service: DataPkgSupplier
+plugins:
+  - serverless-deployment-bucket
+  - serverless-add-api-key
+
+provider:
+  name: aws
+  runtime: java8
+  deploymentBucket:
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-mobility-hackathon-big-deployment-bucket
+    serverSideEncryption: AES256
+  disableDefaultOutputExportNames: true
+  versionFunctions: false
+  stage: prod
+  owner: mhp
+  apiVersion: v1
+  apiName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-mobility-hackathon-big-api
+  iam:
+    deploymentRole: ${opt:cfnRoleArn}
+  region: ${opt:region, 'eu-west-1'}
+  stackName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}
+  stackTags:
+    Project: mhp-mobility-hackathon-2022
+    Service: ${self:service}
+    Stage: ${opt:stage, self:provider.stage}
+    Client: ${opt:owner, self:provider.owner}
+    Owner: Yang Yang
+    Email: yang.yang@mhp.com
+    UseCase: Data Transfer and Device Provisioning
+    ApiVersion: ${opt:apiVersion, self:provider.apiVersion}
+  tracing:
+    lambda: true
+    apiGateway: true
+  logs:
+    restApi: # Optional configuration which specifies if API Gateway logs are used. This can either be set to `true` to use defaults, or configured via subproperties. Can only be configured if API Gateway is inside a stack.
+      accessLogging: true # Optional configuration which enables or disables access logging. Defaults to true.
+      # format: "requestId: $context.requestId" # Optional configuration which specifies the log format to use for access logging.
+      executionLogging: true # Optional configuration which enables or disables execution logging. Defaults to true.
+      level: INFO # Optional configuration which specifies the log level to use for execution logging. May be set to either INFO or ERROR.
+      fullExecutionData: true # Optional configuration which specifies whether or not to log full requests/responses for execution logging. Defaults to true.
+      # role: arn:aws:iam::123456:role # Existing IAM role for ApiGateway to use when managing CloudWatch Logs. If 'role' is not configured, a new role is automatically created.
+      roleManagedExternally: false # Specifies whether the ApiGateway CloudWatch Logs role setting is not managed by Serverless. Defaults to false.
+package:
+  artifact: target/data-package-supplier.jar
+functions:
+  GetBaselineHandler:
+    handler: com.mhp.mobility.hackathon.data.pkg.supplier.GetBaselineHandler
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getBaseline
+    role: getBaselineRole
+    description: Function for retrieving Baseline json data
+    memorySize: 1024
+    timeout: 30
+    events:
+      - http:
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/freigabeartefakte/download/BASELINE/{fileidentifier}
+          method: get
+          private: true
+          request:
+            parameters:
+              paths:
+                fileidentifier: true
+  GetNutzdatenHandler:
+    handler: com.mhp.mobility.hackathon.data.pkg.supplier.GetNutzdatenHandler
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getNutzdaten
+    role: getNutzdatenRole
+    description: Function for retrieving Nutzdaten binary data
+    memorySize: 1024
+    timeout: 30
+    events:
+      - http:
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/nutzdaten/freigabedokument/{type}/{fileidentifier}
+          method: get
+          private: true
+          request:
+            parameters:
+              paths:
+                type: true
+                fileidentifier: true
+  GetNutzdatenInfosHandler:
+    handler: com.mhp.mobility.hackathon.data.pkg.supplier.GetNutzdatenInfosHandler
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getNutzdatenInfos
+    role: getNutzdatenInfosRole
+    description: Function for retrieving Nutzdaten Information json data
+    memorySize: 1024
+    timeout: 30
+    events:
+      - http:
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/nutzdateninformation/freigabedokument/{fileidentifier}
+          method: get
+          private: true
+          request:
+            parameters:
+              paths:
+                fileidentifier: true
+resources:
+  Resources:
+    ##################################
+    ######### IAM Roles #############
+    ##################################
+    getBaselineRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getBaseline # required if you want to use 'serverless deploy --function' later on
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow # note that these rights are given in the default policy and are required if you want logs out of your lambda(s)
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getBaseline
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-${self:service}-getBaseline:*"
+                - Effect: "Allow"
+                  Action:
+                    - s3:GetObject
+                    - s3:ListBucket
+                  Resource:
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket/*"
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket"
+                - Effect: Allow
+                  Action:
+                    - xray:PutTraceSegments
+                    - xray:PutTelemetryRecords
+                  Resource: "*"
+    getNutzdatenRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getNutzdaten # required if you want to use 'serverless deploy --function' later on
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow # note that these rights are given in the default policy and are required if you want logs out of your lambda(s)
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getNutzdaten
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-${self:service}-getNutzdaten:*"
+                - Effect: "Allow"
+                  Action:
+                    - s3:GetObject
+                    - s3:ListBucket
+                  Resource:
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket/*"
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket"
+                - Effect: Allow
+                  Action:
+                    - xray:PutTraceSegments
+                    - xray:PutTelemetryRecords
+                  Resource: "*"
+    getNutzdatenInfosRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getNutzdatenInfos # required if you want to use 'serverless deploy --function' later on
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow # note that these rights are given in the default policy and are required if you want logs out of your lambda(s)
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-getNutzdatenInfos
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-${self:service}-getNutzdatenInfos:*"
+                - Effect: "Allow"
+                  Action:
+                    - s3:GetObject
+                    - s3:ListBucket
+                  Resource:
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket/*"
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket"
+                - Effect: Allow
+                  Action:
+                    - xray:PutTraceSegments
+                    - xray:PutTelemetryRecords
+                  Resource: "*"
+    ##################################
+    ######### S3 Buckets #############
+    ##################################
+    mhpMobilityHackathonBigBaseDataBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-mobility-hackathon-big-base-data-bucket
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+        VersioningConfiguration:
+          Status: Enabled
+
+custom:
+  #########################################
+  ######### API Keys ######################
+  #########################################
+  apiKeys:
+    - name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-mobility-hackathon-big-api-key
+      value: Rvag9WZjNSVRUnCJCw5NLW9wTb2juqsQPEUFUZfJzSF5zKhALfwmsRWuhCr5UqFKEGxUUXuZaUmQ6HdwRBCV4pmjeerpPqUsRxyLDGDEYwTQSAZcM6XJ6K9WumQKEeRQ

@@ -44,12 +44,17 @@ public class GetNutzdatenHandler extends AbstractApiGatewayActionHandler {
       if (pathParameters == null || pathParameters.isEmpty()) {
          throw new IllegalArgumentException("Path must not be null or empty.");
       }
+      String type = pathParameters.get("type");
+      if (StringHelper.isNullOrEmpty(type)) {
+         throw new IllegalArgumentException("Type must not be null or empty.");
+      }
+      
       String fileIdentifier = pathParameters.get("fileIdentifier");
       if (StringHelper.isNullOrEmpty(fileIdentifier)) {
          throw new IllegalArgumentException("File-Identifier must not be null or empty.");
       }
       
-      String prefix = String.format("services/datenverteilung/nutzdaten/freigabedokument/%s", fileIdentifier);
+      String prefix = String.format("services/datenverteilung/nutzdaten/freigabedokument/%s/%s", type, fileIdentifier);
       
       List<String> objects = listObjects(s3Client, BUCKET, prefix);
       if (objects == null || objects.isEmpty()) {

@@ -51,7 +51,7 @@ public class GetNutzdatenInfosHandler
       }
       
       String json = readFileFromS3(s3Client, BUCKET,
-         String.format("services/datenverteilung/nutzdaten/freigabedokument/%s/Nutzdateninformationen.json",
+         String.format("services/datenverteilung/nutzdateninformation/freigabedokument/%s/Nutzdateninformationen.json",
             fileIdentifier),
          StandardCharsets.UTF_8);
       
