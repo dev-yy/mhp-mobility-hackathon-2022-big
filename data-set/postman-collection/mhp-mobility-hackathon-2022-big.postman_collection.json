@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2f92d93f-6f8f-469e-baa3-18d71a8879ac",
+		"_postman_id": "ebc2abf6-63e5-480a-a3ce-ff1eed92ed0d",
 		"name": "mhp-mobility-hackathon-2022-big",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -13,7 +13,7 @@
 					"apikey": [
 						{
 							"key": "value",
-							"value": "\"~Hz{gn_cHXUkUpSq78E:NKjhpWKYW8*k8xL,->7~(N5^",
+							"value": "{{apiKey}}",
 							"type": "string"
 						},
 						{
@@ -26,22 +26,18 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/data-package-supplier/services/schema/available?type=BASELINE",
+					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/BASELINE/0802c715-1990-4c16-804c-47125315da86",
 					"protocol": "https",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"data-package-supplier",
+						"api",
+						"v1",
 						"services",
-						"schema",
-						"available"
-					],
-					"query": [
-						{
-							"key": "type",
-							"value": "BASELINE"
-						}
+						"datenverteilung",
+						"BASELINE",
+						"0802c715-1990-4c16-804c-47125315da86"
 					]
 				}
 			},
@@ -55,7 +51,7 @@
 					"apikey": [
 						{
 							"key": "value",
-							"value": "\"~Hz{gn_cHXUkUpSq78E:NKjhpWKYW8*k8xL,->7~(N5^",
+							"value": "{{apiKey}}",
 							"type": "string"
 						},
 						{
@@ -68,17 +64,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/data-package-supplier/services/datenverteilung/nutzdaten/d4ec3fa8-77fa-4bc9-af1d-043a9ea56c41",
+					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/NUTZDATEN/0802c715-1990-4c16-804c-47125315da86/SW-ODX/049ae7cb-1310-4220-943e-74c4732463f9",
 					"protocol": "https",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"data-package-supplier",
+						"api",
+						"v1",
 						"services",
 						"datenverteilung",
-						"nutzdaten",
-						"d4ec3fa8-77fa-4bc9-af1d-043a9ea56c41"
+						"NUTZDATEN",
+						"0802c715-1990-4c16-804c-47125315da86",
+						"SW-ODX",
+						"049ae7cb-1310-4220-943e-74c4732463f9"
 					]
 				}
 			},
@@ -92,7 +91,7 @@
 					"apikey": [
 						{
 							"key": "value",
-							"value": "\"~Hz{gn_cHXUkUpSq78E:NKjhpWKYW8*k8xL,->7~(N5^",
+							"value": "{{apiKey}}",
 							"type": "string"
 						},
 						{
@@ -105,18 +104,19 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/data-package-supplier/services/datenverteilung/nutzdaten/freigabedokument/6f2206e63a5f5dd4850578aa1fcdc49bd660a1c9c9aeba8ce747a82809b76277",
+					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/NUTZDATENINFORMATION/0802c715-1990-4c16-804c-47125315da86/ede24481-8a4b-4891-88ce-e1abd7c64eeb",
 					"protocol": "https",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"data-package-supplier",
+						"api",
+						"v1",
 						"services",
 						"datenverteilung",
-						"nutzdaten",
-						"freigabedokument",
-						"6f2206e63a5f5dd4850578aa1fcdc49bd660a1c9c9aeba8ce747a82809b76277"
+						"NUTZDATENINFORMATION",
+						"0802c715-1990-4c16-804c-47125315da86",
+						"ede24481-8a4b-4891-88ce-e1abd7c64eeb"
 					]
 				}
 			},
@@ -128,7 +128,7 @@
 		"apikey": [
 			{
 				"key": "value",
-				"value": "\"~Hz{gn_cHXUkUpSq78E:NKjhpWKYW8*k8xL,->7~(N5^",
+				"value": "{{apiKey}}",
 				"type": "string"
 			},
 			{
@@ -156,13 +156,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "baseUrl\n",
-			"value": "tbd",
-			"type": "string"
 		}
 	]
 }
