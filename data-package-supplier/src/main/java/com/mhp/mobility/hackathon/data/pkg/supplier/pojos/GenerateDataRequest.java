@@ -10,6 +10,8 @@ public class GenerateDataRequest {
    
    private int cntLum;
    
+   public GenerateDataRequest() {}
+   
    public GenerateDataRequest(int cntItems, int cntOdx, int cntPdx, int cntLum) {
       this.cntItems = cntItems;
       this.cntOdx = cntOdx;
