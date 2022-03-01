@@ -17,3 +17,17 @@ system should provide a dashboard overview of the transfer status, showing the d
 status of the IoT devices being displayed. Create a working demonstration of your solution for gathering, transforming and storing data to provision numerous IoT devices.
 
 ![image info](./pictures/bigpicture.png)
+
+## Scope
+The MHP challenge expert team will play the role as firmware supplier at the hackathon and will deliver endpoints to download different types of firmware data files. Beside that,the MHP challenge expert team will inform all the hackathon dev teams about the new firmware update by publishing a notification in a kafka-cluster.
+
+The hackathon dev team should:
+
+1. subscribe the Kafka-Topic and Receive the Kafka-Notification
+2. process the download of different types of firmware data files and storage those files in the AWS Cloud
+3. rebuild a on-premise-service to poll the current information about the firmware update
+4. download data files from AWS cloud to on-premise-service and inform the IoT devices via MQTT about a new update
+5. simulate / connect multiple IoT devices to retrieve those firmware update files from on-premise-service "over the air"
+6. monitor the whole workflow via a daschboard
+
+![image info](./pictures/scope.png)
