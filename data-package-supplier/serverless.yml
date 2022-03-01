@@ -97,6 +97,13 @@ functions:
               paths:
                 blFileidentifier: true
                 fileidentifier: true
+  GenerateDataHandler:
+    handler: com.mhp.mobility.hackathon.data.pkg.supplier.GenerateDataHandler
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-generateData
+    role: generateDataRole
+    description: Function for generating supply data
+    memorySize: 2048
+    timeout: 900
 resources:
   Resources:
     ##################################
@@ -202,6 +209,41 @@ resources:
                   Action:
                     - s3:GetObject
                     - s3:ListBucket
+                  Resource:
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket/*"
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket"
+                - Effect: Allow
+                  Action:
+                    - xray:PutTraceSegments
+                    - xray:PutTelemetryRecords
+                  Resource: "*"
+    generateDataRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-generateData # required if you want to use 'serverless deploy --function' later on
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow # note that these rights are given in the default policy and are required if you want logs out of your lambda(s)
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-generateData
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-${self:service}-generateData:*"
+                - Effect: "Allow"
+                  Action:
+                    - s3:PutObject
                   Resource:
                     - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket/*"
                     - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket"

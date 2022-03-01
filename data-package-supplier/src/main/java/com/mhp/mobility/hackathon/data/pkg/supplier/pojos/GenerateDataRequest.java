@@ -8,15 +8,12 @@ public class GenerateDataRequest {
    
    private int cntPdx;
    
-   private int cntPcc;
-   
    private int cntLum;
    
-   public GenerateDataRequest(int cntItems, int cntOdx, int cntPdx, int cntPcc, int cntLum) {
+   public GenerateDataRequest(int cntItems, int cntOdx, int cntPdx, int cntLum) {
       this.cntItems = cntItems;
       this.cntOdx = cntOdx;
       this.cntPdx = cntPdx;
-      this.cntPcc = cntPcc;
       this.cntLum = cntLum;
    }
    
@@ -42,14 +39,6 @@ public class GenerateDataRequest {
    
    public void setCntPdx(int cntPdx) {
       this.cntPdx = cntPdx;
-   }
-   
-   public int getCntPcc() {
-      return cntPcc;
-   }
-   
-   public void setCntPcc(int cntPcc) {
-      this.cntPcc = cntPcc;
    }
    
    public int getCntLum() {

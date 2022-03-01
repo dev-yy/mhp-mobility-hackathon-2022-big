@@ -104,7 +104,8 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
          status.setBezeichnung(bezeichnung);
          referenzItem.setStatus(status);
          List<ReferenzierteDaten> rdList = new ArrayList<>();
-         for (int j = 0; j < input.getCntOdx(); j++) {
+         int cntOdx = new Random().nextInt(input.getCntOdx());
+         for (int j = 0; j < cntOdx; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
             final String fileName = UUID.randomUUID().toString() + ".odx";
@@ -119,7 +120,8 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
-         for (int j = 0; j < input.getCntOdx(); j++) {
+         int cntPdx = new Random().nextInt(input.getCntPdx());
+         for (int j = 0; j < cntPdx; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
             final String fileName = UUID.randomUUID().toString() + ".pdx";
@@ -134,7 +136,8 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
-         for (int j = 0; j < input.getCntOdx(); j++) {
+         int cntLum = new Random().nextInt(input.getCntLum());
+         for (int j = 0; j < cntLum; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
             final String fileName = UUID.randomUUID().toString() + ".lum";
@@ -248,9 +251,5 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       String filePath = "s3://" + bucket + "/" + key;
       
       return filePath;
-   }
-   
-   public static void main(String[] args) {
-      System.out.println(generateRandomString(LUM_LENGTH));
    }
 }
