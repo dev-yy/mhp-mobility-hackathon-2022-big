@@ -39,6 +39,11 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, Map<String, String>> {
    
+   private static final int BASELINE_LENGTH = 300000;
+   private static final int ODX_LENGTH      = 500000;
+   private static final int PDX_LENGTH      = 1000000;
+   private static final int LUM_LENGTH      = 5000000;
+   
    static {
       // https://docs.aws.amazon.com/de_de/sdk-for-java/latest/developer-guide/security-java-tls.html
       System.setProperty("jdk.tls.client.protocols", "TLSv1.2");
@@ -110,7 +115,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             
             String key = String.format("services/datenverteilung/NUTZDATEN/%s/%s/%s/%s",
                blFileIdentifer, "SW-ODX", fileIdentifier, fileName);
-            final String randomStr = generateRandomString();
+            final String randomStr = generateRandomString(ODX_LENGTH);
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
@@ -125,7 +130,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             
             String key = String.format("services/datenverteilung/NUTZDATEN/%s/%s/%s/%s",
                blFileIdentifer, "SW-PDX", fileIdentifier, fileName);
-            final String randomStr = generateRandomString();
+            final String randomStr = generateRandomString(PDX_LENGTH);
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
@@ -140,7 +145,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             
             String key = String.format("services/datenverteilung/NUTZDATEN/%s/%s/%s/%s",
                blFileIdentifer, "SW-LUM", fileIdentifier, fileName);
-            final String randomStr = generateRandomString();
+            final String randomStr = generateRandomString(LUM_LENGTH);
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
@@ -158,7 +163,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       
       String keyBL = String.format("services/datenverteilung/%s/BASELINE/BL_%s",
          blFileIdentifer, blFileIdentifer);
-      final String randomStr = generateRandomString();
+      final String randomStr = generateRandomString(BASELINE_LENGTH);
       writeBytesToS3(s3Client, BUCKET, keyBL, randomStr.getBytes());
       
       Map<String, String> response = new HashMap<>();
@@ -167,10 +172,9 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       return response;
    }
    
-   public static String generateRandomString() {
+   public static String generateRandomString(int targetStringLength) {
       int leftLimit = 48; // numeral '0'
       int rightLimit = 122; // letter 'z'
-      int targetStringLength = 2000;
       Random random = new Random();
       
       String generatedString = random.ints(leftLimit, rightLimit + 1)
@@ -247,6 +251,6 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
    }
    
    public static void main(String[] args) {
-      System.out.println(generateRandomString());
+      System.out.println(generateRandomString(LUM_LENGTH));
    }
 }
