@@ -114,7 +114,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             rd.setFiletype("SW-ODX");
             rdList.add(rd);
             
-            String key = String.format("services/datenverteilung/NUTZDATEN/%s/%s/%s/%s",
+            String key = String.format("services/datenverteilung/%s/NUTZDATEN/%s/%s/%s",
                blFileIdentifer, "SW-ODX", fileIdentifier, fileName);
             final String randomStr = generateRandomString(ODX_LENGTH);
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
@@ -130,7 +130,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             rd.setFiletype("SW-PDX");
             rdList.add(rd);
             
-            String key = String.format("services/datenverteilung/NUTZDATEN/%s/%s/%s/%s",
+            String key = String.format("services/datenverteilung/%s/NUTZDATEN/%s/%s/%s",
                blFileIdentifer, "SW-PDX", fileIdentifier, fileName);
             final String randomStr = generateRandomString(PDX_LENGTH);
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
@@ -146,7 +146,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             rd.setFiletype("SW-LUM");
             rdList.add(rd);
             
-            String key = String.format("services/datenverteilung/NUTZDATEN/%s/%s/%s/%s",
+            String key = String.format("services/datenverteilung/%s/NUTZDATEN/%s/%s/%s",
                blFileIdentifer, "SW-LUM", fileIdentifier, fileName);
             final String randomStr = generateRandomString(LUM_LENGTH);
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
