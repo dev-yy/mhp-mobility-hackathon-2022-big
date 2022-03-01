@@ -44,13 +44,14 @@ public class GetBaselineHandler extends AbstractApiGatewayActionHandler {
       if (pathParameters == null || pathParameters.isEmpty()) {
          throw new IllegalArgumentException("Path must not be null or empty.");
       }
-      String fileIdentifier = pathParameters.get("fileIdentifier");
+      
+      String fileIdentifier = pathParameters.get("fileidentifier");
       if (StringHelper.isNullOrEmpty(fileIdentifier)) {
          throw new IllegalArgumentException("File-Identifier must not be null or empty.");
       }
       
       String json = readFileFromS3(s3Client, BUCKET,
-         String.format("services/datenverteilung/freigabeartefakte/download/BASELINE/%s/BL",
+         String.format("services/datenverteilung/%s/BASELINE/BL_%s", fileIdentifier,
             fileIdentifier),
          StandardCharsets.UTF_8);
       

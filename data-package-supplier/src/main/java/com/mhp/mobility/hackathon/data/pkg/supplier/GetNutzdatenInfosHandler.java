@@ -45,14 +45,21 @@ public class GetNutzdatenInfosHandler
       if (pathParameters == null || pathParameters.isEmpty()) {
          throw new IllegalArgumentException("Path must not be null or empty.");
       }
+      
+      String blFileIdentifier = pathParameters.get("blFileIdentifier");
+      if (StringHelper.isNullOrEmpty(blFileIdentifier)) {
+         throw new IllegalArgumentException("BL-File-Identifier must not be null or empty.");
+      }
+      
       String fileIdentifier = pathParameters.get("fileIdentifier");
       if (StringHelper.isNullOrEmpty(fileIdentifier)) {
          throw new IllegalArgumentException("File-Identifier must not be null or empty.");
       }
       
       String json = readFileFromS3(s3Client, BUCKET,
-         String.format("services/datenverteilung/nutzdateninformation/freigabedokument/%s/Nutzdateninformationen.json",
-            fileIdentifier),
+         String.format(
+            "services/datenverteilung/%s/NUTZDATENINFORMATION/Nutzdateninformationen_%s.json",
+            blFileIdentifier, fileIdentifier),
          StandardCharsets.UTF_8);
       
       return buildResponse(json);

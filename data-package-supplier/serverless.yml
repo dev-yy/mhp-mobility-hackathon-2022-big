@@ -11,6 +11,8 @@ provider:
     name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-mobility-hackathon-big-deployment-bucket
     serverSideEncryption: AES256
   disableDefaultOutputExportNames: true
+  environment:
+    BUCKET: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-mobility-hackathon-big-base-data-bucket
   versionFunctions: false
   stage: prod
   owner: mhp
@@ -53,7 +55,7 @@ functions:
     timeout: 30
     events:
       - http:
-          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/freigabeartefakte/download/BASELINE/{fileidentifier}
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/BASELINE/{fileidentifier}
           method: get
           private: true
           request:
@@ -69,12 +71,13 @@ functions:
     timeout: 30
     events:
       - http:
-          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/nutzdaten/freigabedokument/{type}/{fileidentifier}
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/NUTZDATEN/{blFileidentifier}/{type}/{fileidentifier}
           method: get
           private: true
           request:
             parameters:
               paths:
+                blFileidentifier: true
                 type: true
                 fileidentifier: true
   GetNutzdatenInfosHandler:
@@ -86,12 +89,13 @@ functions:
     timeout: 30
     events:
       - http:
-          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/nutzdateninformation/freigabedokument/{fileidentifier}
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/NUTZDATENINFORMATION/{blFileidentifier}/{fileidentifier}
           method: get
           private: true
           request:
             parameters:
               paths:
+                blFileidentifier: true
                 fileidentifier: true
 resources:
   Resources:
@@ -225,5 +229,5 @@ custom:
   ######### API Keys ######################
   #########################################
   apiKeys:
-    - name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-mobility-hackathon-big-api-key
+    - name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-mobility-hackathon-2022-big-api-key
       value: Rvag9WZjNSVRUnCJCw5NLW9wTb2juqsQPEUFUZfJzSF5zKhALfwmsRWuhCr5UqFKEGxUUXuZaUmQ6HdwRBCV4pmjeerpPqUsRxyLDGDEYwTQSAZcM6XJ6K9WumQKEeRQ
