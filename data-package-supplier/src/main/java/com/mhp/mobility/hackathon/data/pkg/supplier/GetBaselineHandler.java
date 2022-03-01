@@ -50,10 +50,13 @@ public class GetBaselineHandler extends AbstractApiGatewayActionHandler {
          throw new IllegalArgumentException("File-Identifier must not be null or empty.");
       }
       
-      String json = readFileFromS3(s3Client, BUCKET,
-         String.format("services/datenverteilung/%s/BASELINE/BL_%s.bin", fileIdentifier,
-            fileIdentifier),
-         StandardCharsets.UTF_8);
+      String key = String.format("services/datenverteilung/%s/BASELINE/BL_%s", fileIdentifier,
+         fileIdentifier);
+      
+      long start = System.currentTimeMillis();
+      logInfoReq(getLogger(), this, "readFileFromS3", getArgs(BUCKET, key));
+      String json = readFileFromS3(s3Client, BUCKET, key, StandardCharsets.UTF_8);
+      logInfoResp(getLogger(), this, "readFileFromS3", json, System.currentTimeMillis() - start);
       
       return buildResponse(json);
    }

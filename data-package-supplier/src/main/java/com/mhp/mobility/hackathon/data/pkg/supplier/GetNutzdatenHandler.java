@@ -45,7 +45,7 @@ public class GetNutzdatenHandler extends AbstractApiGatewayActionHandler {
          throw new IllegalArgumentException("Path must not be null or empty.");
       }
       
-      String blFileIdentifier = pathParameters.get("blFileIdentifier");
+      String blFileIdentifier = pathParameters.get("blFileidentifier");
       if (StringHelper.isNullOrEmpty(blFileIdentifier)) {
          throw new IllegalArgumentException("BL-File-Identifier must not be null or empty.");
       }

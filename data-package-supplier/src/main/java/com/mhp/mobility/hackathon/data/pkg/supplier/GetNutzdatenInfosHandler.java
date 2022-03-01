@@ -46,12 +46,12 @@ public class GetNutzdatenInfosHandler
          throw new IllegalArgumentException("Path must not be null or empty.");
       }
       
-      String blFileIdentifier = pathParameters.get("blFileIdentifier");
+      String blFileIdentifier = pathParameters.get("blFileidentifier");
       if (StringHelper.isNullOrEmpty(blFileIdentifier)) {
          throw new IllegalArgumentException("BL-File-Identifier must not be null or empty.");
       }
       
-      String fileIdentifier = pathParameters.get("fileIdentifier");
+      String fileIdentifier = pathParameters.get("fileidentifier");
       if (StringHelper.isNullOrEmpty(fileIdentifier)) {
          throw new IllegalArgumentException("File-Identifier must not be null or empty.");
       }
