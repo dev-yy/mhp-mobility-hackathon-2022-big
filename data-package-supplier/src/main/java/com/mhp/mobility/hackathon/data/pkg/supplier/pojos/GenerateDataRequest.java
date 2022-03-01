@@ -2,33 +2,22 @@ package com.mhp.mobility.hackathon.data.pkg.supplier.pojos;
 
 public class GenerateDataRequest {
    
-   private String blFileIdentifier;
+   private int cntItems;
    
-   private int    cntItems;
+   private int cntOdx;
    
-   private int    cntOdx;
+   private int cntPdx;
    
-   private int    cntPdx;
+   private int cntPcc;
    
-   private int    cntPcc;
+   private int cntLum;
    
-   private int    cntLum;
-   
-   public GenerateDataRequest(String blFileIdentifier, int cntItems, int cntOdx, int cntPdx, int cntPcc, int cntLum) {
-      this.blFileIdentifier = blFileIdentifier;
+   public GenerateDataRequest(int cntItems, int cntOdx, int cntPdx, int cntPcc, int cntLum) {
       this.cntItems = cntItems;
       this.cntOdx = cntOdx;
       this.cntPdx = cntPdx;
       this.cntPcc = cntPcc;
       this.cntLum = cntLum;
-   }
-   
-   public String getBlFileIdentifier() {
-      return blFileIdentifier;
-   }
-   
-   public void setBlFileIdentifier(String blFileIdentifier) {
-      this.blFileIdentifier = blFileIdentifier;
    }
    
    public int getCntItems() {

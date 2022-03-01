@@ -40,9 +40,9 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, Map<String, String>> {
    
    private static final int BASELINE_LENGTH = 300000;
-   private static final int ODX_LENGTH      = 500000;
-   private static final int PDX_LENGTH      = 1000000;
-   private static final int LUM_LENGTH      = 5000000;
+   private static final int ODX_LENGTH      = 200000;
+   private static final int PDX_LENGTH      = 500000;
+   private static final int LUM_LENGTH      = 1000000;
    
    static {
       // https://docs.aws.amazon.com/de_de/sdk-for-java/latest/developer-guide/security-java-tls.html
@@ -81,11 +81,11 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
    public Map<String, String> handleRequest(GenerateDataRequest input, Context context) {
       
       final Nutzdateninformationen ni = new Nutzdateninformationen();
-      final String blFileIdentifer = input.getBlFileIdentifier();
+      final String blFileIdentifer = UUID.randomUUID().toString();
       final String niFileIdentifier = UUID.randomUUID().toString();
       
       ni.setFahrzeugprojektProduktKey(UUID.randomUUID().toString());
-      final String baselineName = "BL_" + input.getBlFileIdentifier();
+      final String baselineName = "BL_" + blFileIdentifer + ".bin";
       ni.setArtefaktTyp(baselineName);
       List<ReferenzItem> referenzItemList = new ArrayList<>();
       ni.setReferenzItems(referenzItemList);
@@ -167,8 +167,8 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       writeBytesToS3(s3Client, BUCKET, keyBL, randomStr.getBytes());
       
       Map<String, String> response = new HashMap<>();
+      response.put("BL-File-Identifier", blFileIdentifer);
       response.put("Nutzdateninformationen", niS3Path);
-      
       return response;
    }
    

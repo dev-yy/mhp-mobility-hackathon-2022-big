@@ -51,7 +51,7 @@ public class GetBaselineHandler extends AbstractApiGatewayActionHandler {
       }
       
       String json = readFileFromS3(s3Client, BUCKET,
-         String.format("services/datenverteilung/%s/BASELINE/BL_%s", fileIdentifier,
+         String.format("services/datenverteilung/%s/BASELINE/BL_%s.bin", fileIdentifier,
             fileIdentifier),
          StandardCharsets.UTF_8);
       
