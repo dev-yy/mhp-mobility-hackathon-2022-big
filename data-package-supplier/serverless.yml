@@ -96,7 +96,6 @@ functions:
             parameters:
               paths:
                 blFileidentifier: true
-                fileidentifier: true
   GenerateDataHandler:
     handler: com.mhp.mobility.hackathon.data.pkg.supplier.GenerateDataHandler
     name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-generateData
