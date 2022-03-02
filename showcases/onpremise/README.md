@@ -1,7 +1,7 @@
 # Introduction
 This showcases demonstrates onpremise IoT fabric, where a Temperature Sensor publishes every second temperature data to mosquitto MQTT Broker.
 The Broker Topic is actually: `fabrik/zuffenhausen/sensors/tempsensorA`.
-Another Application subscribes on that topic (`fabrik/zuffenhausen/sensors/tempsensorA`) and writes the data to mongodb for storage.
+Another com.mhp.mobility.hackathon.DemoApplication subscribes on that topic (`fabrik/zuffenhausen/sensors/tempsensorA`) and writes the data to mongodb for storage.
 
 # Architecture
 ![image info](./picture/arch.png)
