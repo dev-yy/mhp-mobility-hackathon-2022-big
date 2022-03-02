@@ -15,7 +15,7 @@ class Consumer {
                                @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                                @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
                                @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-        System.out.printf("%s-%d[%d] \"%s\"\n", topics.get(0), partitions.get(0), offsets.get(0), message);
+        System.out.printf("Received: %s-%d[%d] \"%s\"\n", topics.get(0), partitions.get(0), offsets.get(0), message);
     }
 
 }
