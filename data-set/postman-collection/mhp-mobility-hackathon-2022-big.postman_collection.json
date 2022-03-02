@@ -26,7 +26,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/BASELINE/0802c715-1990-4c16-804c-47125315da86",
+					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/BASELINE/{{blFileIdentifier}}",
 					"protocol": "https",
 					"host": [
 						"{{baseUrl}}"
@@ -37,7 +37,7 @@
 						"services",
 						"datenverteilung",
 						"BASELINE",
-						"0802c715-1990-4c16-804c-47125315da86"
+						"{{blFileIdentifier}}"
 					]
 				}
 			},
@@ -64,7 +64,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/NUTZDATEN/0802c715-1990-4c16-804c-47125315da86/SW-ODX/049ae7cb-1310-4220-943e-74c4732463f9",
+					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/NUTZDATEN/{{blFileIdentifier}}/{{type}}/{{fileIdentifier}}",
 					"protocol": "https",
 					"host": [
 						"{{baseUrl}}"
@@ -75,9 +75,9 @@
 						"services",
 						"datenverteilung",
 						"NUTZDATEN",
-						"0802c715-1990-4c16-804c-47125315da86",
-						"SW-ODX",
-						"049ae7cb-1310-4220-943e-74c4732463f9"
+						"{{blFileIdentifier}}",
+						"{{type}}",
+						"{{fileIdentifier}}"
 					]
 				}
 			},
@@ -104,7 +104,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/NUTZDATENINFORMATION/0802c715-1990-4c16-804c-47125315da86/ede24481-8a4b-4891-88ce-e1abd7c64eeb",
+					"raw": "https://{{baseUrl}}/api/v1/services/datenverteilung/NUTZDATENINFORMATION/{{blFileIdentifier}}",
 					"protocol": "https",
 					"host": [
 						"{{baseUrl}}"
@@ -115,8 +115,7 @@
 						"services",
 						"datenverteilung",
 						"NUTZDATENINFORMATION",
-						"0802c715-1990-4c16-804c-47125315da86",
-						"ede24481-8a4b-4891-88ce-e1abd7c64eeb"
+						"{{blFileIdentifier}}"
 					]
 				}
 			},
