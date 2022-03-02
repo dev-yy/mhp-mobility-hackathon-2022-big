@@ -89,7 +89,7 @@ functions:
     timeout: 30
     events:
       - http:
-          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/NUTZDATENINFORMATION/{blFileidentifier}/{fileidentifier}
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/NUTZDATENINFORMATION/{blFileidentifier}
           method: get
           private: true
           request:

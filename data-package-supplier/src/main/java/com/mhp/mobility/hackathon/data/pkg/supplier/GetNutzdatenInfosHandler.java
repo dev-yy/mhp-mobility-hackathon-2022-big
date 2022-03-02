@@ -51,15 +51,10 @@ public class GetNutzdatenInfosHandler
          throw new IllegalArgumentException("BL-File-Identifier must not be null or empty.");
       }
       
-      String fileIdentifier = pathParameters.get("fileidentifier");
-      if (StringHelper.isNullOrEmpty(fileIdentifier)) {
-         throw new IllegalArgumentException("File-Identifier must not be null or empty.");
-      }
-      
       String json = readFileFromS3(s3Client, BUCKET,
          String.format(
-            "services/datenverteilung/%s/NUTZDATENINFORMATION/Nutzdateninformationen_%s.json",
-            blFileIdentifier, fileIdentifier),
+            "services/datenverteilung/%s/NUTZDATENINFORMATION/Nutzdateninformationen.json",
+            blFileIdentifier),
          StandardCharsets.UTF_8);
       
       return buildResponse(json);

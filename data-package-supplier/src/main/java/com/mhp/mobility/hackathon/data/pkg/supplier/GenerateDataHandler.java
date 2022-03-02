@@ -82,7 +82,6 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       
       final Nutzdateninformationen ni = new Nutzdateninformationen();
       final String blFileIdentifer = UUID.randomUUID().toString();
-      final String niFileIdentifier = UUID.randomUUID().toString();
       
       ni.setFahrzeugprojektProduktKey(UUID.randomUUID().toString());
       final String baselineName = "BL_" + blFileIdentifer + ".bin";
@@ -104,7 +103,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
          status.setBezeichnung(bezeichnung);
          referenzItem.setStatus(status);
          List<ReferenzierteDaten> rdList = new ArrayList<>();
-         int cntOdx = new Random().nextInt(input.getCntOdx());
+         int cntOdx = new Random().nextInt(input.getCntOdx()) + 1;
          for (int j = 0; j < cntOdx; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
@@ -120,7 +119,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
-         int cntPdx = new Random().nextInt(input.getCntPdx());
+         int cntPdx = new Random().nextInt(input.getCntPdx()) + 1;
          for (int j = 0; j < cntPdx; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
@@ -136,7 +135,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
-         int cntLum = new Random().nextInt(input.getCntLum());
+         int cntLum = new Random().nextInt(input.getCntLum()) + 1;
          for (int j = 0; j < cntLum; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
@@ -159,8 +158,8 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       final String niStr = writeValueAsString(ni);
       
       String key = String.format(
-         "services/datenverteilung/%s/NUTZDATENINFORMATION/Nutzdateninformationen_%s.json",
-         blFileIdentifer, niFileIdentifier);
+         "services/datenverteilung/%s/NUTZDATENINFORMATION/Nutzdateninformationen.json",
+         blFileIdentifer);
       
       String niS3Path = writeFileToS3(s3Client, BUCKET, key, "application/json", niStr);
       
