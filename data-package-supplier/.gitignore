@@ -1,0 +1,28 @@
+#Ignore following files
+
+target/
+bin/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+.classpath
+.serverless
+.project
+.factorypath
+.settings/
+*/node_modules
+package-lock.json
+node_modules
+*/.aws-sam
+*.log
+.idea/**/*
+*/*.iml
+tmp/
+sloc.txt
