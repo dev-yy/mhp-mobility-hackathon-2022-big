@@ -59,11 +59,17 @@
 		<resources.encoding>${global.settings.encoding}</resources.encoding>
 		<!-- ================== m2e configuration ================== -->
 		<m2e.lifecyclemapping.version>1.0.0</m2e.lifecyclemapping.version>
+		<kafka-client.version>1.0.0</kafka-client.version>
 		<skip.unit.tests>${skipTests}</skip.unit.tests>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-clients</artifactId>
+				<version>${kafka-client.version}</version>
+			</dependency>
 			<!-- ================== aws lambda dependencies ================== -->
 			<dependency>
 				<groupId>com.amazonaws</groupId>
