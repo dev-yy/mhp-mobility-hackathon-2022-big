@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -62,12 +64,14 @@ public abstract class AbstractApiGatewayActionHandler
     */
    public final static String APPLICATION_JSON_VALUE           = "application/json";
    
+   public static final String ISO8601_PATTERN                  = "yyyy-MM-dd'T'HH:mm:ss.S";
+   
    static {
       // https://docs.aws.amazon.com/de_de/sdk-for-java/latest/developer-guide/security-java-tls.html
       System.setProperty("jdk.tls.client.protocols", "TLSv1.2");
    }
    
-   private final static ObjectMapper OBJECTMAPPER = new ObjectMapper();
+   protected final static ObjectMapper OBJECTMAPPER = new ObjectMapper();
    
    static {
       OBJECTMAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -330,5 +334,40 @@ public abstract class AbstractApiGatewayActionHandler
          (System.currentTimeMillis() - start));
       
       return keys;
+   }
+   
+   protected <T> T readValue(String json, Class<T> clazz) {
+      try {
+         return OBJECTMAPPER.readValue(json, clazz);
+      } catch (IOException e) {
+         logError(getLogger(), this, "readValue", getArgs(json, clazz), e);
+         throw new RuntimeException("readValue failed", e);
+      }
+   }
+   
+   /**
+    * Returns the current timestamp.
+    * 
+    * @return the current timestamp
+    */
+   protected Timestamp now() {
+      return newTimestamp();
+   }
+   
+   /**
+    * Returns the current timestamp.
+    * 
+    * @return the current timestamp
+    */
+   protected Timestamp newTimestamp() {
+      return new Timestamp(System.currentTimeMillis());
+   }
+   
+   protected String format(Timestamp timestamp, String pattern) {
+      if (null != timestamp) {
+         return new SimpleDateFormat(pattern).format(timestamp);
+      } else {
+         return null;
+      }
    }
 }
