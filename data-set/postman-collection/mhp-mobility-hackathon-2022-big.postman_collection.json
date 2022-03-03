@@ -120,51 +120,6 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "Publish Notification",
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{apiKey}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "x-api-key",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"blFileIdentifer\": \"fbdf30d8-e0a0-4d1d-8b91-9498ebc62871\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{baseUrl}}/api/v1/services/notifications",
-					"protocol": "https",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"notifications"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"auth": {
