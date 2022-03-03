@@ -186,7 +186,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
    }
    
    private void publishToKafka(NiMessage niMessage) {
-      String topic = "7kijucqv-mhp-mobility-hackathon";
+      String topic = "7kijucqv-mhp-mobility-hackathon-su-big";
       String jaasTemplate = "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"%s\" password=\"%s\";";
       String jaasCfg = String.format(jaasTemplate, "7kijucqv", "s9tFt4-t4CsnDFE1ILMZK_x1byMUW6PJ");
       

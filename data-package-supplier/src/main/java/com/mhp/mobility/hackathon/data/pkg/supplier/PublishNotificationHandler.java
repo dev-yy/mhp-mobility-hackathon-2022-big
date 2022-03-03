@@ -25,7 +25,7 @@ public class PublishNotificationHandler extends AbstractApiGatewayActionHandler 
    protected APIGatewayProxyResponseEvent execute(APIGatewayProxyRequestEvent input, Context context) {
       NiMessage niMessage = readValue(input.getBody(), NiMessage.class);
       
-      String topic = "7kijucqv-mhp-mobility-hackathon";
+      String topic = "7kijucqv-mhp-mobility-hackathon-su-big";
       publishToKafka(topic, niMessage);
       Map<String, Object> response = new HashMap<>();
       response.put("topic", topic);
