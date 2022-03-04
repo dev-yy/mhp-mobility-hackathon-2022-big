@@ -1,5 +1,25 @@
 package com.mhp.mobility.hackathon.data.pkg.supplier;
 
+import static software.amazon.awssdk.regions.Region.EU_WEST_1;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Random;
+import java.util.UUID;
+
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.StringSerializer;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,12 +29,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.mhp.mobility.hackathon.data.pkg.supplier.pojos.*;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
+import com.mhp.mobility.hackathon.data.pkg.supplier.pojos.GenerateDataRequest;
+import com.mhp.mobility.hackathon.data.pkg.supplier.pojos.NiMessage;
+import com.mhp.mobility.hackathon.data.pkg.supplier.pojos.Nutzdateninformationen;
+import com.mhp.mobility.hackathon.data.pkg.supplier.pojos.ReferenzItem;
+import com.mhp.mobility.hackathon.data.pkg.supplier.pojos.ReferenzierteDaten;
+import com.mhp.mobility.hackathon.data.pkg.supplier.pojos.Status;
+
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.core.SdkSystemSetting;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -23,11 +44,6 @@ import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-
-import java.io.*;
-import java.util.*;
-
-import static software.amazon.awssdk.regions.Region.EU_WEST_1;
 
 public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, Map<String, String>> {
    
@@ -74,7 +90,6 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       
       final Nutzdateninformationen ni = new Nutzdateninformationen();
       final String blFileIdentifer = UUID.randomUUID().toString();
-      final String niFileIdentifier = UUID.randomUUID().toString();
       
       ni.setFahrzeugprojektProduktKey(UUID.randomUUID().toString());
       final String baselineName = "BL_" + blFileIdentifer + ".bin";
@@ -96,7 +111,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
          status.setBezeichnung(bezeichnung);
          referenzItem.setStatus(status);
          List<ReferenzierteDaten> rdList = new ArrayList<>();
-         int cntOdx = new Random().nextInt(input.getCntOdx());
+         int cntOdx = new Random().nextInt(input.getCntOdx()) + 1;
          for (int j = 0; j < cntOdx; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
@@ -112,7 +127,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
-         int cntPdx = new Random().nextInt(input.getCntPdx());
+         int cntPdx = new Random().nextInt(input.getCntPdx()) + 1;
          for (int j = 0; j < cntPdx; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
@@ -128,7 +143,7 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
             writeBytesToS3(s3Client, BUCKET, key, randomStr.getBytes());
          }
          
-         int cntLum = new Random().nextInt(input.getCntLum());
+         int cntLum = new Random().nextInt(input.getCntLum()) + 1;
          for (int j = 0; j < cntLum; j++) {
             final ReferenzierteDaten rd = new ReferenzierteDaten();
             final String fileIdentifier = UUID.randomUUID().toString();
@@ -151,8 +166,8 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       final String niStr = writeValueAsString(ni);
       
       String key = String.format(
-         "services/datenverteilung/%s/NUTZDATENINFORMATION/Nutzdateninformationen_%s.json",
-         blFileIdentifer, niFileIdentifier);
+         "services/datenverteilung/%s/NUTZDATENINFORMATION/Nutzdateninformationen.json",
+         blFileIdentifer);
       
       String niS3Path = writeFileToS3(s3Client, BUCKET, key, "application/json", niStr);
       
@@ -164,21 +179,21 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       Map<String, String> response = new HashMap<>();
       response.put("BL-File-Identifier", blFileIdentifer);
       response.put("Nutzdateninformationen", niS3Path);
-
-      final NiMessage niMessage = new NiMessage(niFileIdentifier);
+      
+      final NiMessage niMessage = new NiMessage(blFileIdentifer);
       publishToKafka(niMessage);
       return response;
    }
-
+   
    private void publishToKafka(NiMessage niMessage) {
       String topic = "7kijucqv-mhp-mobility-hackathon";
       String jaasTemplate = "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"%s\" password=\"%s\";";
       String jaasCfg = String.format(jaasTemplate, "7kijucqv", "s9tFt4-t4CsnDFE1ILMZK_x1byMUW6PJ");
-
+      
       String serializer = StringSerializer.class.getName();
-      String deserializer = StringDeserializer.class.getName();
       Properties props = new Properties();
-      props.put("bootstrap.servers", "sulky-01.srvs.cloudkafka.com:9094,sulky-03.srvs.cloudkafka.com:9094,sulky-02.srvs.cloudkafka.com:9094");
+      props.put("bootstrap.servers",
+         "sulky-01.srvs.cloudkafka.com:9094,sulky-03.srvs.cloudkafka.com:9094,sulky-02.srvs.cloudkafka.com:9094");
       props.put("enable.auto.commit", "true");
       props.put("auto.commit.interval.ms", "1000");
       props.put("auto.offset.reset", "earliest");
@@ -188,17 +203,15 @@ public class GenerateDataHandler implements RequestHandler<GenerateDataRequest, 
       props.put("security.protocol", "SASL_SSL");
       props.put("sasl.mechanism", "SCRAM-SHA-256");
       props.put("sasl.jaas.config", jaasCfg);
-
-      Producer<String, String> producer = new KafkaProducer<>(props);
-      String message;
-      try {
-         message = OBJECTMAPPER.writeValueAsString(niMessage);
+      
+      try (Producer<String, String> producer = new KafkaProducer<>(props)) {
+         String message = OBJECTMAPPER.writeValueAsString(niMessage);
+         producer.send(new ProducerRecord<>(topic, UUID.randomUUID().toString(), message));
       } catch (JsonProcessingException e) {
          throw new IllegalStateException(e);
       }
-      producer.send(new ProducerRecord<>(topic, UUID.randomUUID().toString(), message));
    }
-
+   
    public static String generateRandomString(int targetStringLength) {
       int leftLimit = 48; // numeral '0'
       int rightLimit = 122; // letter 'z'

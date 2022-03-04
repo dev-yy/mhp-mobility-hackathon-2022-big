@@ -89,14 +89,13 @@ functions:
     timeout: 30
     events:
       - http:
-          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/NUTZDATENINFORMATION/{blFileidentifier}/{fileidentifier}
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/datenverteilung/NUTZDATENINFORMATION/{blFileidentifier}
           method: get
           private: true
           request:
             parameters:
               paths:
                 blFileidentifier: true
-                fileidentifier: true
   GenerateDataHandler:
     handler: com.mhp.mobility.hackathon.data.pkg.supplier.GenerateDataHandler
     name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-generateData
@@ -104,6 +103,18 @@ functions:
     description: Function for generating supply data
     memorySize: 2048
     timeout: 900
+  PublishNotificationHandler:
+    handler: com.mhp.mobility.hackathon.data.pkg.supplier.PublishNotificationHandler
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-pubNotification
+    role: pubNotificationRole
+    description: Function for publishing notification
+    memorySize: 1024
+    timeout: 30
+    events:
+      - http:
+          path: /mhp/big/api/${opt:apiVersion, self:provider.apiVersion}/services/notifications
+          method: post
+          private: true
 resources:
   Resources:
     ##################################
@@ -247,6 +258,35 @@ resources:
                   Resource:
                     - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket/*"
                     - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-mobility-hackathon-big-base-data-bucket"
+                - Effect: Allow
+                  Action:
+                    - xray:PutTraceSegments
+                    - xray:PutTelemetryRecords
+                  Resource: "*"
+    pubNotificationRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-pubNotification # required if you want to use 'serverless deploy --function' later on
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow # note that these rights are given in the default policy and are required if you want logs out of your lambda(s)
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-pubNotification
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner,self:provider.owner}-${self:service}-pubNotification:*"
                 - Effect: Allow
                   Action:
                     - xray:PutTraceSegments

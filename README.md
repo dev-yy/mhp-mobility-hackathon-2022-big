@@ -31,3 +31,7 @@ The hackathon dev team should:
 6. monitor the whole workflow via a daschboard
 
 ![image info](./pictures/scope.png)
+
+## Data Structure
+
+![image info](./pictures/fw.png)
