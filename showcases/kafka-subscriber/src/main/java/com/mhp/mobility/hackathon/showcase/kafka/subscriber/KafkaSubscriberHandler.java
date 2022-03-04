@@ -18,6 +18,18 @@ public class KafkaSubscriberHandler extends AbstractLambdaActionHandler<Void, Vo
    
    private static final Logger LOG           = LogManager.getLogger(KafkaSubscriberHandler.class);
    
+   // private final static SqsClient sqsClient;
+   //
+   // static {
+   // final String region = System.getenv(SdkSystemSetting.AWS_REGION.environmentVariable());
+   // final Region awsRegion = region != null ? Region.of(region) : EU_WEST_1;
+   // sqsClient = SqsClient.builder()
+   // .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+   // .region(awsRegion)
+   // .httpClientBuilder(UrlConnectionHttpClient.builder())
+   // .build();
+   // }
+   
    private static final String TOPIC         = "7kijucqv-mhp-mobility-hackathon-su-big";
    // Change your group id here:
    // Wincent - mhp-mobility-big-1
@@ -78,6 +90,13 @@ public class KafkaSubscriberHandler extends AbstractLambdaActionHandler<Void, Vo
    protected void doSomething(ConsumerRecord<String, String> record) {
       logInfoResp(getLogger(), this, "receivedKafkaNotification",
          getArgs(record.topic(), record.partition(), record.offset(), record.key(), record.value()), 0);
+      // e.g. send message to SQS
+      // sqsClient.sendMessage(SendMessageRequest.builder()
+      // .queueUrl(queueUrl)
+      // .messageBody(message)
+      // .messageGroupId(messageGroupId)
+      // .messageDeduplicationId(messageDeduplicationId)
+      // .build());
    }
    
    private boolean notExpired(Date start) {
