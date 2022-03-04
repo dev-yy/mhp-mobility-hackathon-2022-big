@@ -21,9 +21,10 @@ import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
-public class DownloadFileHandler extends AbstractLambdaActionHandler<SQSEvent, Map<String, String>> {
+public class DownloadNutzdateninformationJsonHandler
+                  extends AbstractLambdaActionHandler<SQSEvent, Map<String, String>> {
    
-   private static final Logger   LOG    = LogManager.getLogger(DownloadFileHandler.class);
+   private static final Logger   LOG    = LogManager.getLogger(DownloadNutzdateninformationJsonHandler.class);
    
    private static final String   BUCKET = System.getenv("BUCKET");
    
@@ -45,11 +46,17 @@ public class DownloadFileHandler extends AbstractLambdaActionHandler<SQSEvent, M
       Map<String, String> response = new HashMap<>();
       for (SQSMessage message : input.getRecords()) {
          JSONObject json = new JSONObject(message.getBody());
-         String filename = (String)json.get("filename");
-         String filetype = (String)json.get("filetype");
-         String downloadUrl = (String)json.get("downloadUrl");
+         // String filename = (String)json.get("filename");
+         // String filetype = (String)json.get("filetype");
+         
+         String filename = "Nutzdateninformation.json";
+         String filetpye = "NUTZDATENINFORMATION";
+         String blFileIdentifier = (String)json.get("blFileIdentifier");
+         
+         String downloadUrl = "https://325khd2o7k.execute-api.eu-west-1.amazonaws.com/prod/mhp/big/api/v1/services/datenverteilung/NUTZDATENINFORMATION/"
+                              + blFileIdentifier;
          byte[] content = HttpDownloader.download(downloadUrl);
-         String key = "Downloads/" + filetype + "/" + filename;
+         String key = "Downloads/" + blFileIdentifier + "/" + filetpye + "/" + filename;
          String s3Path = S3Helper.writeBytesToS3(s3Client, BUCKET, key, content);
          response.put(downloadUrl, s3Path);
       }

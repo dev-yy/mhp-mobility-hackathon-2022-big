@@ -21,7 +21,4 @@ Example of deployment with the owner `mhp` and the profile `XXXXXXXXXXXX_MHPFoun
 ##Test
 Just go to the Simple Queue Service in your management console, find your deployed queue and publish a message body like:
 
-`{
-  "downloadUrl":"https://325khd2o7k.execute-api.eu-west-1.amazonaws.com/prod/mhp/big/api/v1/services/datenverteilung/NUTZDATENINFORMATION/fbdf30d8-e0a0-4d1d-8b91-9498ebc62871",
-  "filename":"Nutzdateninformation.json",
-  "filetype":"json"}`
+`{"blFileIdentifier":"fbdf30d8-e0a0-4d1d-8b91-9498ebc62871"}`

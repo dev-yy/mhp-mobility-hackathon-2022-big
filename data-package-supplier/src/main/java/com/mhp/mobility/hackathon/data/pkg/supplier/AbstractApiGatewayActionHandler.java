@@ -49,6 +49,14 @@ public abstract class AbstractApiGatewayActionHandler
     */
    public static final int    INITERNAL_SERVER_ERROR           = 500;
    
+   /**
+    * {@code 200 OK}.
+    * 
+    * @see <a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">HTTP/1.1: Semantics and Content, section
+    *      6.3.1</a>
+    */
+   public static final int    OK                               = 200;
+   
    /** The HTTP {@code X-Powered-By} header field name. */
    public static final String X_POWERED_BY                     = "X-Powered-By";
    /** The HTTP {@code Content-Type} header field name. */
@@ -121,7 +129,7 @@ public abstract class AbstractApiGatewayActionHandler
       headers.put(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
       
       APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-      response.setStatusCode(INITERNAL_SERVER_ERROR);
+      response.setStatusCode(OK);
       response.setBody(result instanceof String ? (String)result : writeValueAsString(result));
       response.setHeaders(headers);
       response.setIsBase64Encoded(false);
@@ -136,7 +144,7 @@ public abstract class AbstractApiGatewayActionHandler
       headers.put(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
       
       APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-      response.setStatusCode(INITERNAL_SERVER_ERROR);
+      response.setStatusCode(OK);
       response.setBody(new String(Base64.getEncoder().encode(binaryBody), StandardCharsets.UTF_8));
       response.setHeaders(headers);
       response.setIsBase64Encoded(true);

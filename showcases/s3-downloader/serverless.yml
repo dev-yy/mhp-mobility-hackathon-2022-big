@@ -24,10 +24,10 @@ package:
   artifact: target/s3-downloader.jar
 
 functions:
-  DownloadFileHandler:
-    handler: com.mhp.mobility.hackathon.showcase.s3.downloader.DownloadFileHandler
-    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadFile
-    role: downloadFileRole
+  DownloadNutzdateninformationJsonHandler:
+    handler: com.mhp.mobility.hackathon.showcase.s3.downloader.DownloadNutzdateninformationJsonHandler
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadNIJson
+    role: downloadNIJsonRole
     memorySize: 1024
     timeout: 900
     events:
@@ -47,10 +47,10 @@ resources:
     ##################################
     ######### IAM Roles #############
     ##################################
-    downloadFileRole:
+    downloadNIJsonRole:
       Type: AWS::IAM::Role
       Properties:
-        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadFile
+        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadNIJson
         AssumeRolePolicyDocument:
           Version: "2012-10-17"
           Statement:
@@ -60,7 +60,7 @@ resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadFile
+          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadNIJson
             PolicyDocument:
               Version: "2012-10-17"
               Statement:
@@ -70,7 +70,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadFile:*"
+                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadNIJson:*"
                 - Effect: Allow
                   Action:
                     - s3:PutObject
@@ -113,7 +113,7 @@ resources:
         QueueName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-url-queue.fifo
         FifoQueue: true
         KmsMasterKeyId: alias/aws/sqs
-        # ContentBasedDeduplication: true
+        ContentBasedDeduplication: false
         KmsDataKeyReusePeriodSeconds: 300
         DelaySeconds: 0
         MaximumMessageSize: 262144
