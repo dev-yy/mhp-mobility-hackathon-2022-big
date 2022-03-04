@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.mhp.mobility.hackathon</groupId>
+        <artifactId>challenge-big-parent-pom</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../maven-settings/challenge-big-parent-pom/pom.xml</relativePath>
+    </parent>
+    <artifactId>kafka-consumer</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
