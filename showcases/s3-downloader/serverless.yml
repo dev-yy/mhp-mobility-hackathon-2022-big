@@ -1,0 +1,111 @@
+frameworkVersion: ^2.56.0
+service: s3-downloader
+
+provider:
+  name: aws
+  runtime: java8
+  role: lambdaRole
+  stage: prod
+  owner: mhp
+  region: ${opt:region, 'eu-west-1'}
+  disableDefaultOutputExportNames: true
+  environment:
+    BUCKET: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}
+  versionFunctions: false
+  stackName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}
+  tracing:
+    lambda: true
+  stackTags:
+    Project: mhp-mobility-hackathon-2022
+    Service: ${self:service}
+    Stage: ${opt:stage, self:provider.stage}
+    Client: ${opt:owner, self:provider.owner}
+package:
+  artifact: target/s3-downloader.jar
+
+functions:
+  DownloadFileHandler:
+    handler: com.mhp.mobility.hackathon.showcase.s3.downloader.DownloadFileHandler
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadFile
+    role: downloadFileRole
+    memorySize: 1024
+    timeout: 900
+
+resources:
+  Resources:
+    ##################################
+    ######### IAM Roles #############
+    ##################################
+    downloadFileRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadFile
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadFile
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-downloadFile:*"
+                - Effect: Allow
+                  Action:
+                    - s3:PutObject
+                  Resource:
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}/*"
+                    - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}"
+                - Effect: "Allow"
+                  Action:
+                    - kms:Decrypt
+                  Resource:
+                    - !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:key/*"
+                - Effect: "Allow"
+                  Action:
+                    - sqs:*
+                  Resource: "*"
+                - Effect: "Allow"
+                  Action:
+                    - xray:PutTraceSegments
+                    - xray:PutTelemetryRecords
+                  Resource: "*"
+    ##################################
+    ######### S3 Buckets #############
+    ##################################
+    s3DownloadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+        VersioningConfiguration:
+          Status: Enabled
+    #########################################
+    ######### SQS Queues ####################
+    #########################################
+    s3DownloadQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-url-queue.fifo
+        FifoQueue: true
+        KmsMasterKeyId: alias/aws/sqs
+        ContentBasedDeduplication: true
+        KmsDataKeyReusePeriodSeconds: 300
+        DelaySeconds: 0
+        MaximumMessageSize: 262144
+        MessageRetentionPeriod: 1209600
+        ReceiveMessageWaitTimeSeconds: 20
+        VisibilityTimeout: 30
