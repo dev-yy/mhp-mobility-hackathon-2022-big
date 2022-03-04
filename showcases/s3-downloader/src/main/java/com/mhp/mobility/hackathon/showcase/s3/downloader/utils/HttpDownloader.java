@@ -28,9 +28,9 @@ public final class HttpDownloader {
          disableSSLHandshake();
          URL url = new URL(downloadUrl);
          HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
-         // conn.setRequestProperty("x-api-key",
-         // "L2YhrYWjNYtGaSsHQL4EvQwgUFGcsT3nXyDeX6dFAzStRjQrzXdCDc99b8paZCmz8KYzTKMvAs3KgBtnhE4D8LgGpUt9t8SGf27wmEpqwhUCN5YfzjNR2Y3aBcSehBGt");
-         // conn.setRequestProperty("Content-Type", "application/json");
+         conn.setRequestProperty("x-api-key",
+            "L2YhrYWjNYtGaSsHQL4EvQwgUFGcsT3nXyDeX6dFAzStRjQrzXdCDc99b8paZCmz8KYzTKMvAs3KgBtnhE4D8LgGpUt9t8SGf27wmEpqwhUCN5YfzjNR2Y3aBcSehBGt");
+         conn.setRequestProperty("Content-Type", "application/json");
          conn.setRequestMethod("GET");
          
          byte[] binary = readAllBytes(conn.getInputStream());

@@ -45,9 +45,11 @@ public class DownloadFileHandler extends AbstractLambdaActionHandler<SQSEvent, M
       Map<String, String> response = new HashMap<>();
       for (SQSMessage message : input.getRecords()) {
          JSONObject json = new JSONObject(message.getBody());
+         String filename = (String)json.get("filename");
+         String filetype = (String)json.get("filetype");
          String downloadUrl = (String)json.get("downloadUrl");
          byte[] content = HttpDownloader.download(downloadUrl);
-         String key = "Download";
+         String key = "Downloads/" + filetype + "/" + filename;
          String s3Path = S3Helper.writeBytesToS3(s3Client, BUCKET, key, content);
          response.put(downloadUrl, s3Path);
       }

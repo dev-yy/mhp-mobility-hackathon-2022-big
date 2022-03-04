@@ -113,7 +113,7 @@ resources:
         QueueName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-url-queue.fifo
         FifoQueue: true
         KmsMasterKeyId: alias/aws/sqs
-        ContentBasedDeduplication: true
+        # ContentBasedDeduplication: true
         KmsDataKeyReusePeriodSeconds: 300
         DelaySeconds: 0
         MaximumMessageSize: 262144
