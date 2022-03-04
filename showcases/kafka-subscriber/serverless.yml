@@ -1,0 +1,70 @@
+frameworkVersion: ^2.56.0
+service: kafka-subscriber
+
+provider:
+  name: aws
+  runtime: java8
+  role: lambdaRole
+  stage: prod
+  owner: mhp
+  region: ${opt:region, 'eu-west-1'}
+  disableDefaultOutputExportNames: true
+  environment:
+    BUCKET: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}
+  versionFunctions: false
+  stackName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}
+  tracing:
+    lambda: true
+  stackTags:
+    Project: mhp-mobility-hackathon-2022
+    Service: ${self:service}
+    Stage: ${opt:stage, self:provider.stage}
+    Client: ${opt:owner, self:provider.owner}
+package:
+  artifact: target/kafka-subscriber.jar
+
+functions:
+  KafkaSubscriberHandler:
+    handler: com.mhp.mobility.hackathon.showcase.kafka.subscriber.KafkaSubscriberHandler
+    name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-subKafka
+    role: subKafkaRole
+    memorySize: 1024
+    timeout: 900
+    events:
+      - name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-subKafka-rule
+      - schedule: cron(0/1 6-23 ? * MON-FRI *) # every minute from 6 to 23, from mon to fri.
+
+resources:
+  Resources:
+    ##################################
+    ######### IAM Roles #############
+    ##################################
+    subKafkaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-subKafka
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-subKafka
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-subKafka:*"
+                - Effect: "Allow"
+                  Action:
+                    - xray:PutTraceSegments
+                    - xray:PutTelemetryRecords
+                  Resource: "*"

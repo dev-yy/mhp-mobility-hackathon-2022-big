@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.amazonaws.services.lambda.runtime.log4j2">
+  <Appenders>
+    <Lambda name="Lambda">
+      <PatternLayout>
+      	  <pattern>{"metadata": {%n  "correlationId": "$${ctx:correlationId}",%n  "awsAccountId": "$${ctx:awsAccountId}",%n  "timestamp": "%d{yyyy-MM-dd HH:mm:ss.SSS}",%n  "application_group":"worker",%n  "application":"rps",%n  "stage":"${stage}",%n  "service":"${artifactId}",%n  "logger":"%logger{50},%n  "loglevel":"%-5level"%n},%n"msg": %m}%n</pattern>
+      </PatternLayout>
+    </Lambda>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Lambda" />
+    </Root>
+  </Loggers>
+</Configuration>
