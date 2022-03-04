@@ -30,6 +30,17 @@ functions:
     role: downloadFileRole
     memorySize: 1024
     timeout: 900
+    events:
+      - sqs:
+          arn:
+            Fn::Join:
+              - ":"
+              - - arn
+                - aws
+                - sqs
+                - Ref: AWS::Region
+                - Ref: AWS::AccountId
+                - ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-url-queue.fifo
 
 resources:
   Resources:
@@ -108,4 +119,4 @@ resources:
         MaximumMessageSize: 262144
         MessageRetentionPeriod: 1209600
         ReceiveMessageWaitTimeSeconds: 20
-        VisibilityTimeout: 30
+        VisibilityTimeout: 900
