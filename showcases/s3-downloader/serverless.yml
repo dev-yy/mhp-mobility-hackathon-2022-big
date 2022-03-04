@@ -74,6 +74,7 @@ resources:
                 - Effect: Allow
                   Action:
                     - s3:PutObject
+                    - s3:GetObject
                   Resource:
                     - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}/*"
                     - !Sub "arn:aws:s3:::${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}"

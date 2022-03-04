@@ -45,19 +45,24 @@ public class DownloadNutzdateninformationJsonHandler
    protected Map<String, String> execute(SQSEvent input, Context context) {
       Map<String, String> response = new HashMap<>();
       for (SQSMessage message : input.getRecords()) {
-         JSONObject json = new JSONObject(message.getBody());
+         JSONObject o = new JSONObject(message.getBody());
          // String filename = (String)json.get("filename");
          // String filetype = (String)json.get("filetype");
          
          String filename = "Nutzdateninformation.json";
          String filetpye = "NUTZDATENINFORMATION";
-         String blFileIdentifier = (String)json.get("blFileIdentifier");
+         String blFileIdentifier = (String)o.get("blFileIdentifier");
          
          String downloadUrl = "https://325khd2o7k.execute-api.eu-west-1.amazonaws.com/prod/mhp/big/api/v1/services/datenverteilung/NUTZDATENINFORMATION/"
                               + blFileIdentifier;
          byte[] content = HttpDownloader.download(downloadUrl);
          String key = "Downloads/" + blFileIdentifier + "/" + filetpye + "/" + filename;
          String s3Path = S3Helper.writeBytesToS3(s3Client, BUCKET, key, content);
+         
+         String json = S3Helper.readFileFromS3(s3Client, BUCKET, key);
+         
+         logInfoResp(getLogger(), this, "downloadNutzdateninformationJson", json, 0);
+         
          response.put(downloadUrl, s3Path);
       }
       return response;
