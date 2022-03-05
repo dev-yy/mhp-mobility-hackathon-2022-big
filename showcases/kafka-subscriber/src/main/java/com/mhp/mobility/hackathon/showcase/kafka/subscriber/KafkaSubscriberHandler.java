@@ -39,7 +39,7 @@ public class KafkaSubscriberHandler extends AbstractLambdaActionHandler<Void, Vo
    // TrueCloud - mhp-mobility-big-5
    // PAEL - mhp-mobility-big-6
    // ByteMe - mhp-mobility-big-7
-   private static final String GROUP_ID      = "mhp-mobility-big-1";
+   private static final String GROUP_ID      = "mhp-mobility-big-6";
    
    // every 1 Minute
    private static final int    SCHEDULE_RATE = 1;

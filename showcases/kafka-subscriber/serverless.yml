@@ -32,7 +32,7 @@ functions:
     timeout: 900
     events:
       - name: ${opt:stage, self:provider.stage}-${opt:owner, self:provider.owner}-${self:service}-subKafka-rule
-      - schedule: cron(0/1 6-23 ? * MON-FRI *) # every minute from 6 to 23, from mon to fri.
+      - schedule: rate(1 minute) # every minute
 
 resources:
   Resources:
